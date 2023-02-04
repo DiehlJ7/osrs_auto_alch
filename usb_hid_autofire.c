@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include <string.h>
 #include <furi.h>
 #include <furi_hal.h>
@@ -5,6 +7,7 @@
 #include <input/input.h>
 #include "version.h"
 #include "tools.h"
+
 
 // Uncomment to be able to make a screenshot
 //#define USB_HID_AUTOFIRE_SCREENSHOT
@@ -22,26 +25,37 @@ typedef struct {
 
 bool btn_left_autofire = false;
 uint32_t autofire_delay = 10;
+uint32_t rand_delay = 0;
+uint32_t r = 0;
 
 static void usb_hid_autofire_render_callback(Canvas* canvas, void* ctx) {
     UNUSED(ctx);
     char autofire_delay_str[12];
+    char range_start[12];
+    char range_end[12];
     //std::string pi = "pi is " + std::to_string(3.1415926);
-    itoa(autofire_delay, autofire_delay_str, 10);
+    itoa((autofire_delay + r), autofire_delay_str, 10);
+    itoa((autofire_delay), range_start, 10);
+    itoa((autofire_delay + rand_delay), range_end, 10);
     //sprintf(autofire_delay_str, "%lu", autofire_delay);
 
     canvas_clear(canvas);
 
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str(canvas, 0, 10, "USB HID Autofire");
-    canvas_draw_str(canvas, 0, 34, btn_left_autofire ? "<active>" : "<inactive>");
+    canvas_draw_str(canvas, 0, 10, "JUUL TOAD Autofire++");
+    canvas_draw_str(canvas, 80, 34, btn_left_autofire ? "<active>" : "<inactive>");
 
     canvas_set_font(canvas, FontSecondary);
-    canvas_draw_str(canvas, 90, 10, "v");
-    canvas_draw_str(canvas, 96, 10, VERSION);
+    // canvas_draw_str(canvas, 90, 10, "v0.5");
     canvas_draw_str(canvas, 0, 22, "Press [ok] for auto left clicking");
-    canvas_draw_str(canvas, 0, 46, "delay [ms]:");
-    canvas_draw_str(canvas, 50, 46, autofire_delay_str);
+    canvas_draw_str(canvas, 0, 34, "delay [ms]:");
+    canvas_draw_str(canvas, 50, 34, autofire_delay_str);
+    
+    canvas_draw_str(canvas, 0, 46, "range [ms]:");
+    canvas_draw_str(canvas, 50, 46, range_start);
+    canvas_draw_str(canvas, 65, 46, " - ");
+    canvas_draw_str(canvas, 75, 46, range_end);
+    
     canvas_draw_str(canvas, 0, 63, "Press [back] to exit");
 }
 
@@ -74,6 +88,8 @@ int32_t usb_hid_autofire_app(void* p) {
     gui_add_view_port(gui, view_port, GuiLayerFullscreen);
 
     UsbMouseEvent event;
+    //srand(time(NULL));
+
     while(1) {
         FuriStatus event_status = furi_message_queue_get(event_queue, &event, 50);
 
@@ -99,6 +115,14 @@ int32_t usb_hid_autofire_app(void* p) {
                     case InputKeyRight:
                         autofire_delay += 10;
                         break;
+                    case InputKeyUp:
+                        rand_delay += 10;
+                        break;
+                    case InputKeyDown:
+                        if(rand_delay > 0) {
+                            rand_delay -= 10;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -106,11 +130,12 @@ int32_t usb_hid_autofire_app(void* p) {
         }
 
         if(btn_left_autofire) {
+            r = rand() % (rand_delay + 1);
             furi_hal_hid_mouse_press(HID_MOUSE_BTN_LEFT);
             // TODO: Don't wait, but use the timer directly to just don't send the release event (see furi_hal_cortex_delay_us)
-            furi_delay_us(autofire_delay * 500);
+            furi_delay_us((autofire_delay + r)* 500);
             furi_hal_hid_mouse_release(HID_MOUSE_BTN_LEFT);
-            furi_delay_us(autofire_delay * 500);
+            furi_delay_us((autofire_delay + r) * 500);
         }
 
         view_port_update(view_port);
