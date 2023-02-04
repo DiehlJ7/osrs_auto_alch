@@ -37,16 +37,16 @@ static void osrs_auto_alch_render_callback(Canvas* canvas, void* ctx) {
     canvas_clear(canvas);
 
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str(canvas, 0, 10, "OSRS Auto Alch");
+    canvas_draw_str(canvas, 0, 10, "OSRS Alchemy Helper");
     canvas_draw_str(canvas, 80, 34, btn_left_autofire ? "[active]" : "[inactive]");
 
     canvas_set_font(canvas, FontSecondary);
     // canvas_draw_str(canvas, 90, 10, "v0.5");
     canvas_draw_str(canvas, 0, 22, "Press [ok] for auto left clicking");
-    canvas_draw_str(canvas, 0, 34, "delay [ms]:");
+    canvas_draw_str(canvas, 0, 34, "Delay [ms]:");
     canvas_draw_str(canvas, 50, 34, autofire_delay_str);
     
-    canvas_draw_str(canvas, 0, 46, "range [ms]:");
+    canvas_draw_str(canvas, 0, 46, "Range [ms]:");
     canvas_draw_str(canvas, 50, 46, range_start);
     canvas_draw_str(canvas, 65, 46, " - ");
     canvas_draw_str(canvas, 75, 46, range_end);
