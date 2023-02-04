@@ -5,11 +5,9 @@ Tool for human-like autoclicking, specifically for Old School Runescape, try not
 
 This is a simple Flipper Zero application to send left-clicks as a USB HID device.
 
-Forked USB HID Autofire tool https://github.com/pbek/usb_hid_autofire
-
+Forked from USB HID Autofire tool https://github.com/pbek/usb_hid_autofire
+Building off pbek's work for personal learning
 Adapted code and added capabilities for human-like randomized autoclicking.
-
-
 
 ## Building
 
@@ -33,3 +31,6 @@ cd ..
 4. Clean Up Code
 5. Add Capabilities for mouse movement patterns/scripting
 6. Add scripts for other simple skills
+
+# Credits
+pbek https://github.com/pbek
