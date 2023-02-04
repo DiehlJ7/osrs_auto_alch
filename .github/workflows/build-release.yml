@@ -26,10 +26,10 @@ jobs:
       - name: Checkout application
         uses: actions/checkout@v3
         with:
-          path: firmware/applications_user/usb_hid_autofire
+          path: firmware/applications_user/osrs_auto_alch
       - name: Set Env
         run: |
-          cd firmware/applications_user/usb_hid_autofire
+          cd firmware/applications_user/osrs_auto_alch
           export VERSION=$(cat version.h | sed 's/[^0-9,.]//g')
           export TAG=v${VERSION}
           export RELEASE_TEXT=$(grep -Pzo "## ${VERSION}\n(\n|.)+?\n##" CHANGELOG.md | sed '$ d')
@@ -46,7 +46,7 @@ jobs:
           echo "RELEASE_TEXT=${RELEASE_TEXT}"
           printenv
       - name: Build application
-        run: cd firmware && ./fbt fap_usb_hid_autofire
+        run: cd firmware && ./fbt fap_osrs_auto_alch
       - name: Create Draft Release
         id: create_release
         uses: actions/create-release@v1
@@ -63,8 +63,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./firmware/build/f7-firmware-D/.extapps/usb_hid_autofire.fap
-          asset_name: usb_hid_autofire.fap
+          asset_path: ./firmware/build/f7-firmware-D/.extapps/osrs_auto_alch.fap
+          asset_name: osrs_auto_alch.fap
           asset_content_type: application/x-object
       - uses: eregon/publish-release@v1
         env:

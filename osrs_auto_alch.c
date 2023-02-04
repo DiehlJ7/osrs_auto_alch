@@ -1,5 +1,4 @@
 #include <stdlib.h>
-
 #include <string.h>
 #include <furi.h>
 #include <furi_hal.h>
@@ -7,10 +6,6 @@
 #include <input/input.h>
 #include "version.h"
 #include "tools.h"
-
-
-// Uncomment to be able to make a screenshot
-//#define USB_HID_AUTOFIRE_SCREENSHOT
 
 typedef enum {
     EventTypeInput,
@@ -24,11 +19,11 @@ typedef struct {
 } UsbMouseEvent;
 
 bool btn_left_autofire = false;
-uint32_t autofire_delay = 10;
-uint32_t rand_delay = 0;
+uint32_t autofire_delay = 300;
+uint32_t rand_delay = 300;
 uint32_t r = 0;
 
-static void usb_hid_autofire_render_callback(Canvas* canvas, void* ctx) {
+static void osrs_auto_alch_render_callback(Canvas* canvas, void* ctx) {
     UNUSED(ctx);
     char autofire_delay_str[12];
     char range_start[12];
@@ -42,8 +37,8 @@ static void usb_hid_autofire_render_callback(Canvas* canvas, void* ctx) {
     canvas_clear(canvas);
 
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str(canvas, 0, 10, "JUUL TOAD Autofire++");
-    canvas_draw_str(canvas, 80, 34, btn_left_autofire ? "<active>" : "<inactive>");
+    canvas_draw_str(canvas, 0, 10, "OSRS Auto Alch");
+    canvas_draw_str(canvas, 80, 34, btn_left_autofire ? "[active]" : "[inactive]");
 
     canvas_set_font(canvas, FontSecondary);
     // canvas_draw_str(canvas, 90, 10, "v0.5");
@@ -59,7 +54,7 @@ static void usb_hid_autofire_render_callback(Canvas* canvas, void* ctx) {
     canvas_draw_str(canvas, 0, 63, "Press [back] to exit");
 }
 
-static void usb_hid_autofire_input_callback(InputEvent* input_event, void* ctx) {
+static void osrs_auto_alch_input_callback(InputEvent* input_event, void* ctx) {
     FuriMessageQueue* event_queue = ctx;
 
     UsbMouseEvent event;
@@ -68,20 +63,20 @@ static void usb_hid_autofire_input_callback(InputEvent* input_event, void* ctx) 
     furi_message_queue_put(event_queue, &event, FuriWaitForever);
 }
 
-int32_t usb_hid_autofire_app(void* p) {
+int32_t osrs_auto_alch_app(void* p) {
     UNUSED(p);
     FuriMessageQueue* event_queue = furi_message_queue_alloc(8, sizeof(UsbMouseEvent));
     furi_check(event_queue);
     ViewPort* view_port = view_port_alloc();
 
     FuriHalUsbInterface* usb_mode_prev = furi_hal_usb_get_config();
-#ifndef USB_HID_AUTOFIRE_SCREENSHOT
+#ifndef OSRS_AUTO_ALCH_SCREENSHOT
     furi_hal_usb_unlock();
     furi_check(furi_hal_usb_set_config(&usb_hid, NULL) == true);
 #endif
 
-    view_port_draw_callback_set(view_port, usb_hid_autofire_render_callback, NULL);
-    view_port_input_callback_set(view_port, usb_hid_autofire_input_callback, event_queue);
+    view_port_draw_callback_set(view_port, osrs_auto_alch_render_callback, NULL);
+    view_port_input_callback_set(view_port, osrs_auto_alch_input_callback, event_queue);
 
     // Open GUI and register view_port
     Gui* gui = furi_record_open(RECORD_GUI);

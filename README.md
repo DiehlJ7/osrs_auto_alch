@@ -1,10 +1,6 @@
-# NOT READY 2/3/2023
-# Renaming Files and adapting code
-
 # OSRS AUTO ALCHING TOOL 
 
-
-Tool for human-like autoclicking, specifically for Old School Runescape
+Tool for human-like autoclicking, specifically for Old School Runescape, try not to get banned
 
 
 This is a simple Flipper Zero application to send left-clicks as a USB HID device.
@@ -24,10 +20,10 @@ git clone https://github.com/DiehlJ7/osrs_auto_alch.git
 cd ..
 
 # Build the application
-./fbt fap_usb_hid_autofire
+./fbt fap_osrs_auto_alch
 
 # Build and launch the application
-./fbt launch_app APPSRC=usb_hid_autofire
+./fbt launch_app APPSRC=osrs_auto_alch
 ```
 
 # Future

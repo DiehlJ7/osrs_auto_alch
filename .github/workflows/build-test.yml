@@ -30,6 +30,6 @@ jobs:
       - name: Checkout application
         uses: actions/checkout@v3
         with:
-          path: firmware/applications_user/usb_hid_autofire
+          path: firmware/applications_user/osrs_auto_alch
       - name: Build application
-        run: cd firmware && ./fbt fap_usb_hid_autofire
+        run: cd firmware && ./fbt fap_osrs_auto_alch

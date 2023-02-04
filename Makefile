@@ -1,5 +1,5 @@
 build:
-	cd ../.. && ./fbt fap_usb_hid_autofire
+	cd ../.. && ./fbt.cmd fap_osrs_auto_alch
 
 build-launch:
-	cd ../.. && ./fbt launch_app APPSRC=usb_hid_autofire
+	cd ../.. && ./fbt.cmd launch_app APPSRC=osrs_auto_alch
