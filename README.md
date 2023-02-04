@@ -1,4 +1,5 @@
 # NOT READY 2/3/2023
+# Renaming Files and adapting code
 
 # OSRS AUTO ALCHING TOOL 
 
@@ -7,7 +8,9 @@ Tool for human-like autoclicking, specifically for Old School Runescape
 
 
 This is a simple Flipper Zero application to send left-clicks as a USB HID device.
+
 Forked USB HID Autofire tool https://github.com/pbek/usb_hid_autofire
+
 Adapted code and added capabilities for human-like randomized autoclicking.
 
 
